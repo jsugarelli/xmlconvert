@@ -1,0 +1,19 @@
+Package: xmlconvert
+Type: Package
+Title: Comfortably Converting XML Documents to Dataframes and Vice Versa
+Description: Converts XML documents to R dataframes and dataframes to XML documents.
+  A wide variety of options allows for different XML formats and flexible control
+  of the conversion process. Results can be exported to CSV and Excel, if desired.
+Version: 0.1.0
+Authors@R: person("Joachim", "Zuckarelli", role = c("aut", "cre"), email = "joachim@zuckarelli.de", comment = c(ORCID="0000-0002-9280-3016"))
+Maintainer: Joachim Zuckarelli <joachim@zuckarelli.de>
+Depends: R (>= 3.5.0)
+License: GPL-3
+Imports: xml2, stringr, readr, tibble, httr, utils
+Suggests: xlsx
+Repository: CRAN
+BugReports: https://github.com/jsugarelli/xmlconvert/issues
+URL: https://github.com/jsugarelli/xmlconvert/
+Encoding: UTF-8
+ByteCompile: true
+RoxygenNote: 7.1.1
