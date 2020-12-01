@@ -7,6 +7,7 @@
 xml_to_df(
   file = NULL,
   text = NULL,
+  first.records = NULL,
   xml.encoding = "",
   records.tags = NULL,
   records.xpath = NULL,
@@ -36,10 +37,13 @@ xml_to_df(
 }
 \arguments{
 \item{file}{XML file to be converted. Instead of specifying a file, the XML
-code can put in directly via the \code{text} argument}
+code can put in directly via the \code{text} argument,}
 
 \item{text}{XML code to be converted. Instead of providing the XML code, an
-XML file can be specified with the \code{file} argument}
+XML file can be specified with the \code{file} argument.}
+
+\item{first.records}{Number of records to be converted. If \code{NULL}
+(default) all records will be converted.}
 
 \item{xml.encoding}{Encoding of the XML file (optional), e.g. (\code{"UTF-8"})}
 
@@ -169,8 +173,8 @@ The resulting dataframe. There is no return value if the
 This section provides some more details on how \code{xml_to_df()}
  works with different ways of representing data fields in the XML (tags
  versus attributes) and on working with nested XML field structures.\cr\cr
- \subsection{Two ways of representing the data: Tags and attributes}{
- For \code{xml_to_df()} records are always represented by tags (i.e XML
+ \subsection{Two ways of representing the data: Tags and attributes}{ For
+ \code{xml_to_df()} records are always represented by tags (i.e XML
  elements). Data fields within a record, however, can be represented by
  either tags or attributes.\cr\cr In the former case the XML would like like
  this:\cr \code{ <xml>} \cr \code{....<record>} \cr
@@ -200,8 +204,7 @@ This section provides some more details on how \code{xml_to_df()}
  \code{....<record field1="Value 1-1" field2="Value 1-2" />}\cr
  \code{....<record field1="Value 2-1" field2="Value 2-2" />}\cr
  \code{</xml>}\cr Here would need to change the \code{fields} argument to
- \code{"attributes"}.}
- \subsection{Working with the nested field values}{
+ \code{"attributes"}.} \subsection{Working with the nested field values}{
  When data fields are represented by XML elements / tag then there may nested
  structures beneath them. If the \code{no.hierarchy} argument is \code{FALSE}
  (default) this nested structure within a field is recursively analyzed and
@@ -215,8 +218,8 @@ This section provides some more details on how \code{xml_to_df()}
  the argument from its value. Consider the following example:\cr\cr
  \code{<xml>}\cr \code{....<ship>}\cr \code{........<name>Excelsior<name>}\cr
  \code{........<lastcaptain>Hikaru Sulu</lastcaptain>}\cr
- \code{....</ship>}\cr \code{....<ship>}\cr \code{........One proud ship name, many
- captains}\cr \code{........<name>Enterprise<name>}\cr
+ \code{....</ship>}\cr \code{....<ship>}\cr \code{........One proud ship
+ name, many captains}\cr \code{........<name>Enterprise<name>}\cr
  \code{........<lastcaptain>}\cr \code{............<NCC-1701-A>James Tiberius
  Kirk</NCC-1701-A>}\cr \code{............<NCC-1701-B>John
  Harriman</NCC-1701-B>}\cr \code{............<NCC-1701-C>Rachel
@@ -231,8 +234,7 @@ This section provides some more details on how \code{xml_to_df()}
  we would use \code{hierarchy.field.delim = c("[", "]")} then we would better
  see the start and of end of each element:\cr \code{One proud name, many
  captains[NCC-1701-A~James Tiberius Kirk][NCC-1701-B~John
- Harriman][NCC-1701-C~Rachel Garrett][NCC-1701-D~Jean-Luc Picard]}
- }
+ Harriman][NCC-1701-C~Rachel Garrett][NCC-1701-D~Jean-Luc Picard]} }
 }
 \examples{
 # Data used: World population figures from the United Nations Statistics Division

@@ -2,3 +2,4 @@
 
 export(df_to_xml)
 export(xml_to_df)
+export(xml_to_list)

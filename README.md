@@ -89,13 +89,13 @@ represented by individual attributes, as in the following example:
 In this case, we use `fields = "attributes"` instead of `fields =
 "tags"` to adjust to this XML data structure. Here, a call of
 `xml_to_df()` could look like this: `xml_to_df("mydata.xml", records.tag
-= "datarecord", fields="attributes"`)
+= "datarecord", fields = "attributes"`)
 
-The `xmlconvert` functions offer a lot of options to specify which the
-data fields are to be used, how to deal with missing values, how to
-treat with different data types and how to export the results. Please
-consult the online help by executing `?xml_to_df` in the R console for
-more information on these options.
+The `xmlconvert` functions offer a lot of options to specify which data
+fields are to be used, how to deal with missing values, how to treat
+different data types and how to export the results. Please consult the
+online help by executing `?xml_to_df` in the R console for more
+information on these options.
 
 ## Contact the author
 

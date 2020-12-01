@@ -1,0 +1,133 @@
+<xml>
+	<customer> 
+		<customerno>C0023751</customerno>
+		<givenname>Sarah</givenname>
+		<surname>Durbin</surname>
+		<email>sarah.durbin@absolutelynowhere.com</email>
+		<address>
+			<street>139 W Jackson Blvd</street>
+			<postalcode>60604</postalcode>
+			<city>
+				<name>Chicago</name>
+				<state>Illinois</state>
+			</city>
+			<country>
+				<name>United States of America</name>
+				<isocode>US</isocode>
+			</country>
+		</address>
+		<username>queenofqueens</username>
+		<creditlimit>USD 500.00</creditlimit>
+		<customersince>2020-12-22</customersince>
+	</customer>
+
+	<customer>
+		<customerno>C0017439</customerno>
+		<givenname>Mark</givenname>
+		<surname>Durbin</surname>
+		<email>mark@durbinshome.net</email>
+		<address>
+			<street>139 W Jackson Blvd</street>
+			<postalcode>60604</postalcode>
+			<city>
+				<name>Chicago</name>
+				<state>Illinois</state>
+			</city>
+			<country>
+				<name>United States of America</name>
+				<isocode>US</isocode>
+			</country>
+		</address>
+		<username>durby82</username>
+		<creditlimit>USD 750.00</creditlimit>
+		<customersince>2017-01-19</customersince>		
+	</customer>
+
+	<customer>
+		<customerno>C0248538</customerno> 
+		<givenname>Max</givenname>
+		<surname>Brunner</surname>
+		<email>mbrunner@winetasting-brunner.de</email>
+		<address>
+			<street>Rotkreuzplatz 5</street>
+			<postalcode>80634</postalcode>
+			<city>
+				<name>Munich</name>
+				<state>Bavaria</state>
+			</city>		
+			<country>
+				<name>Germany</name>
+				<isocode>DE</isocode>
+			</country>
+		</address>
+		<username>brunnermax_69</username>
+		<creditlimit>USD 350.50</creditlimit>
+		<customersince>2019-08-27</customersince>
+	</customer>
+
+	<customer>
+		<customerno>C0271182</customerno>
+		<givenname>Urs</givenname>
+		<surname>Richli</surname>
+		<email>urs.richli@richli-design.ch</email>
+		<address>
+			<street>Seestrasse 43</street>
+			<postalcode>6052</postalcode>
+			<city>
+				<name>Hergiswil</name>
+				<state>Luzern</state>
+			</city>
+			<country>
+				<name>Switzerland</name>
+				<isocode>CH</isocode>
+			</country>
+		</address>
+		<username>ursrichli</username>
+		<creditlimit>USD 500.00</creditlimit>
+		<customersince>2020-05-07</customersince>		
+	</customer>
+
+	<customer>
+		<customerno>C0019935</customerno> 
+		<givenname>Clara-Sophie</givenname>
+		<surname>Dr. Hellmann</surname>
+		<email>clara-sophie@ginternetpost.de</email>
+		<address>
+			<street>Brienner Strasse 11</street>
+			<postalcode>80333</postalcode>
+			<city>
+				<name>Munich</name>
+				<state>Bavaria</state>
+			</city>		
+			<country>
+				<name>Germany</name>
+				<isocode>DE</isocode>
+			</country>
+		</address>
+		<username>helli</username>
+		<creditlimit>USD 850.00</creditlimit>
+		<customersince>2018-10-25</customersince>		
+	</customer>
+
+	<customer>
+		<customerno>C0019935</customerno> 
+		<givenname>Thomas</givenname>
+		<surname>Chang</surname>
+		<email>chang-thomas@sf-foryou.com</email>
+		<address>
+			<street>539 Lombard St</street>
+			<postalcode>94133</postalcode>
+			<city>
+				<name>San Francisco</name>
+				<state>California</state>
+			</city>		
+			<country>
+				<name>United States of America</name>
+				<isocode>US</isocode>
+			</country>
+		</address>
+		<username>tchango123</username>	
+		<creditlimit>USD 500.00</creditlimit>
+		<customersince>2020-11-03</customersince>		
+	</customer>
+</xml>

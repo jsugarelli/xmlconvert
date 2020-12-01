@@ -81,9 +81,11 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'   examples below for simple applications.
 
 #'@param file XML file to be converted. Instead of specifying a file, the XML
-#'  code can put in directly via the \code{text} argument
+#'  code can put in directly via the \code{text} argument,
 #'@param text XML code to be converted. Instead of providing the XML code, an
-#'  XML file can be specified with the \code{file} argument
+#'  XML file can be specified with the \code{file} argument.
+#'@param first.records Number of records to be converted. If \code{NULL}
+#'  (default) all records will be converted.
 #'@param xml.encoding Encoding of the XML file (optional), e.g. (\code{"UTF-8"})
 #'@param records.tags Name (or vector of names) of the tags that represent the
 #'  data records in the XML (i.e. each record has one element with this tag
@@ -180,8 +182,8 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'@details This section provides some more details on how \code{xml_to_df()}
 #'  works with different ways of representing data fields in the XML (tags
 #'  versus attributes) and on working with nested XML field structures.\cr\cr
-#'  \subsection{Two ways of representing the data: Tags and attributes}{
-#'  For \code{xml_to_df()} records are always represented by tags (i.e XML
+#'  \subsection{Two ways of representing the data: Tags and attributes}{ For
+#'  \code{xml_to_df()} records are always represented by tags (i.e XML
 #'  elements). Data fields within a record, however, can be represented by
 #'  either tags or attributes.\cr\cr In the former case the XML would like like
 #'  this:\cr \code{ <xml>} \cr \code{....<record>} \cr
@@ -211,8 +213,7 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'  \code{....<record field1="Value 1-1" field2="Value 1-2" />}\cr
 #'  \code{....<record field1="Value 2-1" field2="Value 2-2" />}\cr
 #'  \code{</xml>}\cr Here would need to change the \code{fields} argument to
-#'  \code{"attributes"}.}
-#'  \subsection{Working with the nested field values}{
+#'  \code{"attributes"}.} \subsection{Working with the nested field values}{
 #'  When data fields are represented by XML elements / tag then there may nested
 #'  structures beneath them. If the \code{no.hierarchy} argument is \code{FALSE}
 #'  (default) this nested structure within a field is recursively analyzed and
@@ -226,8 +227,8 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'  the argument from its value. Consider the following example:\cr\cr
 #'  \code{<xml>}\cr \code{....<ship>}\cr \code{........<name>Excelsior<name>}\cr
 #'  \code{........<lastcaptain>Hikaru Sulu</lastcaptain>}\cr
-#'  \code{....</ship>}\cr \code{....<ship>}\cr \code{........One proud ship name, many
-#'  captains}\cr \code{........<name>Enterprise<name>}\cr
+#'  \code{....</ship>}\cr \code{....<ship>}\cr \code{........One proud ship
+#'  name, many captains}\cr \code{........<name>Enterprise<name>}\cr
 #'  \code{........<lastcaptain>}\cr \code{............<NCC-1701-A>James Tiberius
 #'  Kirk</NCC-1701-A>}\cr \code{............<NCC-1701-B>John
 #'  Harriman</NCC-1701-B>}\cr \code{............<NCC-1701-C>Rachel
@@ -242,8 +243,7 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'  we would use \code{hierarchy.field.delim = c("[", "]")} then we would better
 #'  see the start and of end of each element:\cr \code{One proud name, many
 #'  captains[NCC-1701-A~James Tiberius Kirk][NCC-1701-B~John
-#'  Harriman][NCC-1701-C~Rachel Garrett][NCC-1701-D~Jean-Luc Picard]}
-#'  }
+#'  Harriman][NCC-1701-C~Rachel Garrett][NCC-1701-D~Jean-Luc Picard]} }
 #'
 #'
 #' @examples
@@ -263,9 +263,9 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'@family xmlconvert
 #'
 #'@export
-xml_to_df <- function(file = NULL, text = NULL, xml.encoding = "", records.tags = NULL, records.xpath = NULL,
+xml_to_df <- function(file = NULL, text = NULL, first.records = NULL, xml.encoding = "", records.tags = NULL, records.xpath = NULL,
                       fields = "tags", field.names = NULL, only.fields = NULL, exclude.fields = NULL,
-                      check.datatypes = TRUE, data.dec = ".", data.thds = ",", stringsAsFactors = FALSE,
+                      check.datatypes = TRUE, data.dec = ".", data.thds = ",", stringsAsFactors= FALSE,
                       na = NA, non.exist = na, no.hierarchy = FALSE, hierarchy.field.delim = "|", hierarchy.value.sep = "~",
                       no.return = FALSE, excel.filename = NULL, excel.sheetname = NULL, excel.pw = NULL,
                       csv.filename = NULL, csv.sep = ",", csv.dec = ".", csv.encoding = "", ...) {
@@ -274,7 +274,7 @@ xml_to_df <- function(file = NULL, text = NULL, xml.encoding = "", records.tags 
     "You need to provide either a file name (argument file) or the XML code itself (argument 'text').")
 
   if(((ifnull(records.tags, "") == "") + (ifnull(records.xpath, "") == "")) == 2) stop(
-    "You need to provide either a tag name (argument 'records.tag') or an xpath expression (argument 'records.xpath') that describes the XML tags which carry the actual data records in your XML file.")
+    "You need to provide either a tagQ name (argument 'records.tag') or an xpath expression (argument 'records.xpath') that describes the XML tags which carry the actual data records in your XML file.")
 
   if(ifnull(file, "") != "") {
     if(file.exists(file) | url_exists(file)) text <- readr::read_file(file)
@@ -291,7 +291,9 @@ xml_to_df <- function(file = NULL, text = NULL, xml.encoding = "", records.tags 
 
   df <- data.frame()
   cols <- c()
-  for(i in 1:length(recs)) {
+
+  if(is.null(first.records)) first.records <- length(recs)
+  for(i in 1:min(length(recs), first.records)) {
     dat <- get_data(recs[[i]], fields, only.fields, exclude.fields, field.names, hierarchy.field.delim, hierarchy.value.sep, no.hierarchy)
     dat[is.na(dat)] <- ""
     dat[dat == ""] <- na
@@ -453,4 +455,108 @@ df_to_xml <- function(df, fields = "tags", record.tag = "record", field.names = 
 
   if(!is.null(xml.file)) xml2::write_xml(xml, xml.file, options = "format")
   if(!no.return) return(xml)
+}
+
+
+
+xml_is_numeric <- function(num) {
+  return(suppressWarnings(!is.na(as.numeric(num))))
+}
+
+
+xml_convert_types <- function(elem, convert.types, dec, thsd, num.replace, datetime.formats) {
+  if(convert.types & class(elem) != "list") {
+    conv <- elem
+    if(!is.null(datetime.formats)) {
+      datetime.formats<-datetime.formats[order(nchar(datetime.formats))]
+      conv.datetime <- NA
+      for(i in 1:length(datetime.formats)) {
+        test.datetime <- lubridate::as_date(conv, format=datetime.formats[i])
+        if(!is.na(test.datetime)) conv.datetime <- test.datetime
+      }
+      if(!is.na(conv.datetime)) return(conv.datetime)
+    }
+
+    if(num.replace != "") conv <- stringr::str_replace_all(elem, escape(num.replace), "")
+    if(thsd != "") conv <- stringr::str_replace_all(conv, escape(thsd), "")
+    if(dec != "") conv <- stringr::str_replace_all(conv, escape(dec), ".")
+    conv <- stringr::str_trim(conv, "both")
+    if(xml_is_numeric(conv)) return(as.numeric(conv))
+    else return(elem)
+  }
+  else return(elem)
+}
+
+
+process_xml_list <- function(elem, convert.types, dec, thsd, num.replace, datetime.formats) {
+  len <- length(elem)
+  if(class(elem) == "list") {
+    if(len == 1) {
+      if(class(elem[[1]]) == "list") elem <- process_xml_list(elem[[1]], convert.types, dec, thsd, num.replace, datetime.formats)
+      else return(xml_convert_types(elem[[1]], convert.types, dec, thsd, num.replace, datetime.formats))
+    }
+    else {
+      if(len > 0) {
+        for(i in 1:len) {
+          elem[[i]] <- process_xml_list(elem[[i]], convert.types, dec, thsd, num.replace, datetime.formats)
+        }
+      }
+      else return(xml_convert_types(elem, convert.types, dec, thsd, num.replace, datetime.formats))
+    }
+  }
+  return(xml_convert_types(elem, convert.types, dec, thsd, num.replace, datetime.formats))
+}
+
+
+remove_empty_elements <- function(lst) {
+  for(i in length(lst):1) {
+    if(length(lst[[i]]) == 0) lst[[i]] <- NULL
+    else {
+      if(class(lst[[i]]) == "list") lst[[i]] <- remove_empty_elements(lst[[i]])
+    }
+  }
+  return(lst)
+}
+
+
+
+#' Converting XML documents to lists
+#'
+#' @description Converts XML documents to lists. Uses the
+#'   \code{\link[xml2:as_list]{as_list()}} function from the
+#'   \code{xml2} package but improves its output. As an effect, numbers, dates
+#'   and times are converted correctly, unnecessary nested sub-lists with only
+#'   element are avoided, and empty XML nodes can be removed altogether. This
+#'   makes the resulting list look cleaner and better structured.
+#'
+#' @param xml XML document to be converted. Can be read in from a file using
+#'   \code{xml2}'s \code{read_xml()} function.
+#' @param cleanup If \code{TRUE} (default) empty XML nodes (with no sub-nodes or
+#'   values) will not appear in the list.
+#' @param convert.types If \code{TRUE} (default) \code{xml_to_list()} will try
+#'   to infer the data type of value elements in the XML. If \code{FALSE}, all
+#'   value elements in the resulting list will be of type \code{character}.
+#' @param dec Decimal separator used in numbers.
+#' @param thsd Thousands separator used in numbers.
+#' @param num.replace An optional string that will be removed before
+#'   \code{xml_to_list()} tries to convert values to numbers. Can be used, for
+#'   example, to remove currency symbols or other measurement units from values
+#'   that are actually numerical.
+#' @param datetime.formats A vector of date and/or time formats that will be
+#'   used to recognize the respective datatypes. Formats will need to be written
+#'   in the general notation used by \code{\link[base:strftime]{strftime()}} and
+#'   other standard R functions.
+#'
+#' @return A \code{list} object representing the XML document.
+
+#' @examples
+#' xml <- xml2::read_xml(system.file("customers.xml", package="xmlconvert"))
+#' xml.list <- xml_to_list(xml, num.replace="USD", datetime.formats = "%Y-%m-%d")#'
+#'
+#'@export
+xml_to_list <- function(xml, cleanup = TRUE, convert.types = TRUE, dec =".", thsd = ",", num.replace = "", datetime.formats = NULL) {
+  xml <- xml2::as_list(xml)
+  lst <- process_xml_list(xml, convert.types, dec, thsd, num.replace, datetime.formats)
+  if(cleanup) lst <- remove_empty_elements(lst)
+  return(lst)
 }
