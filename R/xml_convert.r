@@ -175,6 +175,10 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'@param ... Additional arguments passed on the \code{write.table()} when
 #'  exporting the resulting dataframe via the \code{csv.filename} argument,
 #'  Default is dot (\code{.})
+#'@param strip.ns Logical option that can be used to strip the namespaces from
+#'  the XML data. Default is \code{FALSE}. Try this if parsing of your XML data
+#'  fails and namespaces are present in your data. Please note: Removing the
+#'  namespaces from the XML data may increase the time needed for parsing.
 #'
 #'@return The resulting dataframe. There is no return value if the
 #'  \code{no.return} argument is set to \code{TRUE}.
@@ -268,7 +272,7 @@ xml_to_df <- function(file = NULL, text = NULL, first.records = NULL, xml.encodi
                       check.datatypes = TRUE, data.dec = ".", data.thds = ",", stringsAsFactors= FALSE,
                       na = NA, non.exist = na, no.hierarchy = FALSE, hierarchy.field.delim = "|", hierarchy.value.sep = "~",
                       no.return = FALSE, excel.filename = NULL, excel.sheetname = NULL, excel.pw = NULL,
-                      csv.filename = NULL, csv.sep = ",", csv.dec = ".", csv.encoding = "", ...) {
+                      csv.filename = NULL, csv.sep = ",", csv.dec = ".", csv.encoding = "", strip.ns = FALSE, ...) {
 
   if(((ifnull(file, "") == "") + (ifnull(text, "") == "")) == 2) stop(
     "You need to provide either a file name (argument file) or the XML code itself (argument 'text').")
@@ -283,6 +287,7 @@ xml_to_df <- function(file = NULL, text = NULL, first.records = NULL, xml.encodi
 
 
   xml <- xml2::read_xml(text, encoding = xml.encoding)
+  if(strip.ns) xml <- xml2::xml_ns_strip(xml)
 
   xp <- ""
   if(!is.null(records.tags)) xp <- paste0("//", records.tags, collapse = " | ")

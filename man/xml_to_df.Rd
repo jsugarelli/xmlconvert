@@ -32,6 +32,7 @@ xml_to_df(
   csv.sep = ",",
   csv.dec = ".",
   csv.encoding = "",
+  strip.ns = FALSE,
   ...
 )
 }
@@ -154,6 +155,11 @@ via the \code{csv.filename} argument, Default is dot (\code{.})}
 
 \item{csv.encoding}{Text encoding used when exporting the resulting dataframe
 via the \code{csv.filename} argument}
+
+\item{strip.ns}{Logical option that can be used to strip the namespaces from
+the XML data. Default is \code{FALSE}. Try this if parsing of your XML data
+fails and namespaces are present in your data. Please note: Removing the
+namespaces from the XML data may increase the time needed for parsing.}
 
 \item{...}{Additional arguments passed on the \code{write.table()} when
 exporting the resulting dataframe via the \code{csv.filename} argument,
