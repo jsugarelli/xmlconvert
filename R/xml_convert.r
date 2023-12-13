@@ -291,7 +291,7 @@ xml_to_df <- function(file = NULL, text = NULL, first.records = NULL, xml.encodi
 
   xp <- ""
   if(!is.null(records.tags)) xp <- paste0("//", records.tags, collapse = " | ")
-  if(!is.null(records.xpath)) xp <- paste(xp, paste0(records.xpath, collapse = " | "), sep = " | ")
+  if(!is.null(records.xpath)) xp <- paste0(records.xpath, collapse = " | ")
   recs <- xml2::xml_find_all(xml, xp)
 
   df <- data.frame()

@@ -54,11 +54,11 @@ name). All elements with this tag name will be considered data records.
 Instead of specifying the tag name, an XPatch expression can be used to
 identify the data records (see \code{records.xpath})}
 
-\item{records.xpath}{XPath expression that specifies the XML element to be
-selected as data records; can be used instead of specifying the data record
-XML tags directly with the \code{data.records} argument. If both,
-\code{records.tags} and \code{records.path} are provided, only the XPath
-expressions determines the tags to be selected.}
+\item{records.xpath}{XPath expression (or vector of expressions) that specifies
+ the XML element to be selected as data records; can be used instead of
+ specifying the data record XML tags directly with the \code{data.records}
+ argument. If both, \code{records.tags} and \code{records.path} are provided,
+ only the XPath expressions determines the tags to be selected.}
 
 \item{fields}{A character value, either \code{"tags"} or \code{"attributes"}.
 Specifies whether the fields of each data record are represented as XML tags
