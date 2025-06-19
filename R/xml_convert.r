@@ -281,12 +281,12 @@ xml_to_df <- function(file = NULL, text = NULL, first.records = NULL, xml.encodi
     "You need to provide either a tagQ name (argument 'records.tag') or an xpath expression (argument 'records.xpath') that describes the XML tags which carry the actual data records in your XML file.")
 
   if(ifnull(file, "") != "") {
-    if(file.exists(file) | url_exists(file)) text <- readr::read_file(file)
+    if(file.exists(file) | url_exists(file)) xml <- xml2::read_xml(file, encoding = xml.encoding)
     else stop(paste0("File or URL '", file, "' could not be opened."))
   }
-
-
-  xml <- xml2::read_xml(text, encoding = xml.encoding)
+  else {
+    xml <- xml2::read_xml(text, encoding = xml.encoding)
+  }
   if(strip.ns) xml <- xml2::xml_ns_strip(xml)
 
   xp <- ""
