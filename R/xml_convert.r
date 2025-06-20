@@ -85,16 +85,16 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'@param text XML code to be converted. Instead of providing the XML code, an
 #'  XML file can be specified with the \code{file} argument.
 #'@param first.records Number of records to be converted. If \code{NULL}
-#'  (default) all records will be converted.
+#'  (default), all records will be converted.
 #'@param xml.encoding Encoding of the XML file (optional), e.g. (\code{"UTF-8"})
 #'@param records.tags Name (or vector of names) of the tags that represent the
 #'  data records in the XML (i.e. each record has one element with this tag
 #'  name). All elements with this tag name will be considered data records.
-#'  Instead of specifying the tag name, an XPatch expression can be used to
+#'  Instead of specifying the tag name, an XPath expression can be used to
 #'  identify the data records (see \code{records.xpath})
 #'@param records.xpath XPath expression that specifies the XML element to be
 #'  selected as data records; can be used instead of specifying the data record
-#'  XML tags directly with the \code{data.records} argument. If both,
+#'  XML tags directly with the \code{data.records} argument. If both
 #'  \code{records.tags} and \code{records.path} are provided, only the XPath
 #'  expressions determines the tags to be selected.
 #'@param fields A character value, either \code{"tags"} or \code{"attributes"}.
@@ -207,7 +207,7 @@ get_data <- function(rec, fields, only.fields, exclude.fields, field.names, hier
 #'  \code{....<record>} \cr \code{........<data name="field1">Value 1-1</data>}
 #'  \cr \code{........<data name="field2">Value 1-2</data>} \cr
 #'  \code{....</record>} \cr \code{....<record>} \cr \code{........<data
-#'  name="field1">Value 2-1</data>} \cr \code{........<data name"field2">Value
+#'  name="field1">Value 2-1</data>} \cr \code{........<data name="field2">Value
 #'  2-2</data>} \cr \code{....</record>} \cr \code{....</xml>} \cr\cr  Here, we
 #'  would use the optional \code{field.names} argument to tell
 #'  \code{xml_to_df()} with \code{field.names = "name"} that each data tag has
