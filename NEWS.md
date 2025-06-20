@@ -1,3 +1,10 @@
+# xmlconvert 0.1.3
+
+## Minor chnages
+
+* Bug fixed regarding reading of encoding of XML files (GitHub issue #3, thanks to @cejkiebo)
+* Pull request merged regarding typos and incosistencies in the documentation (thanks to Mayeul Kauffmann @mayeulk for this contribution!)
+
 # xmlconvert 0.1.2
 
 ## Minor changes
